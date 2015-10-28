@@ -1,0 +1,24 @@
+---
+- name: ensure job docker images are present
+  sudo: yes
+  command: /usr/bin/docker pull {{ item }}
+  with_items:
+    - "{{ kibana_image }}:{{ kibana_image_tag }}"
+  tags:
+    - kibana
+
+- name: create json files for jobs
+  sudo: yes
+  template:
+    src: 'kibana.json.j2'
+    dest: /etc/marathon/kibana.json
+  tags:
+    - kibana
+
+- name: start jobs
+  run_once: true
+  sudo: yes
+  command: 'curl -X PUT -d@/etc/marathon/kibana.json -H "Content-Type: application/json" http://localhost:18080/v2/apps/kibana'
+  changed_when: false
+  tags:
+    - kibana

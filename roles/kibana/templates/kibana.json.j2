@@ -1,0 +1,19 @@
+{
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "{{ kibana_image }}:{{ kibana_image_tag }}"
+    }
+  },
+  "env": {
+    "ELASTICSEARCH_URL": "http://elasticsearch.server.consul:9200"
+  },
+  "id": "kibana",
+  "instances": 1,
+  "cpus": 0.1,
+  "mem": 128,
+  "ports": [
+    5601
+  ]
+}
+
